@@ -1,0 +1,21 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+<div class="container" style="position: absolute; right: 0; left: 0; margin: 80px auto auto auto; max-width: 600px; box-shadow: 2px 2px 10px 4px lightsteelblue; padding: 30px">
+<h1 style="text-align: center">{% trans "StudyFindr" %}</h1>
+{% get_providers as socialaccount_providers %}
+<h4 style="text-align: center; font-size: 16px;">{% blocktrans with site.name as site_name %}<b>A social app to find study friends <i>without</i> the hassle</b><br/><br />Sign in via Google below{% endblocktrans %}</h4>
+<div style="display: flex; justify-content: center; flex-direction: column;">
+  <br /><br />
+<div class="socialaccount_ballot" style="position: relative; display: flex; flex-direction: column; justify-content: center;">
+    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+</div>
+<br />
+</div>
+</div>
+{% endblock %}

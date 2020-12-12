@@ -1,0 +1,41 @@
+{% extends 'index.html' %}
+
+{% load socialaccount %}
+
+{% block content %}
+<!-- Main Account Page-->
+
+<body>
+    <div class="container text-center">
+        <h1>{{ course.course_code }}</h1>
+        <h3>{{ course.name }}</h3>
+        {% for meet in meetings %}
+            {% if meet.course == course %}
+                <div style="border:1px solid black; border-radius: 25px; margin-top: 20px">
+                    <div class="container text-center" style="margin-bottom: 20px;">
+                        <h3><b>{{ meet.who }}</b></h3>
+                        <h4><i>{{ meet.when }}</i></h4>
+                        {% if not meet.subject %}
+                            <h4>No Subject</h4>
+                        {% else %}
+                            <h4>{{ meet.subject }}</h4>
+                        {% endif %}
+                        <p>{{ meet.why }}</p>
+                        {% if "http" in meet.where %}
+                            <a class="btn btn-primary btn-lg" href="{{ meet.where }}" target="_blank">Join study session</a>
+                        {% else %}
+                            <a class="btn btn-primary btn-lg" href="http://{{ meet.where }}" target="_blank">Join study session</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="container text-center" style="margin-top: 20px; margin-bottom: 20px;">
+        <form method="get" action="/new_meeting/">
+            <button type='submit' class='btn btn-primary btn-lg pull-right'>New study session</button>
+        </form>
+    </div>
+</body>
+
+{% endblock %}

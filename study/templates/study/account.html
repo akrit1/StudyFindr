@@ -1,0 +1,96 @@
+{% extends 'index.html' %}
+
+{% load socialaccount %}
+
+{% block content %}
+<!-- Main Account Page-->
+
+<body>    
+    {% if user.is_authenticated %}
+
+    <div style="border:1px solid black; border-radius: 25px; margin-top: 30px">
+        <div class="container text-center" style="margin-bottom: 15px;" >
+            <h1 style="font-size: 90px;">{{ user.first_name }} {{ user.last_name }}</h1>
+            <p>@<a href="/{{user.username}}/" style="color:black">{{ user.username }}</a></p>
+        </div>
+        <div class="container text-center" style="margin-bottom: 20px;">
+            <h4><span style="font-weight:normal">{{ user.profile.biography }}</span></h4>
+        </div>
+    </div>
+    <div class="mt-2" style="border:1px solid black; border-radius: 25px; margin-top: 20px">
+        <h2 style="text-align: center;">Background</h2>
+        <div class="container text-center">
+            <div class="row" style="margin-bottom: 20px;">
+                <div class="col-md-4">
+                        <h3>Major</h3>
+                        <h4><span style="font-weight:normal"> {{user.profile.user_major}} </span></h4>
+                    <h3>Learning type</h3>
+                        <h4><span style="font-weight:normal">{{user.profile.type_of_learner}}</span></h4>
+                    <h3><p class="text-secondary">Looking to</p> </h3>
+                        <h4><span style="font-weight:normal">{{ user.profile.openness_to_social_studying}}</span></h4>
+                </div> 
+                <div class="col-md-4">
+                    <h3>Collaboration level</h3>
+                        <h1><span style="font-weight:normal">{{user.profile.importance_of_collaboration}}</span></h1>
+                </div> 
+                <div class="col-md-4">
+                    <h3>Strengths</h3>
+                        <h4><span style="font-weight:normal">{{ user.profile.personal_strengths}}</span></h4>
+                    <h3>Weaknesses</h3>
+                        <h4><span style="font-weight:normal">{{ user.profile.personal_weaknesses}}</span></h4>
+                    <h3>Study time</h3>
+                        <h4><span style="font-weight:normal">{{user.profile.time_preference_for_studying}}</span></h4>
+                </div>  
+            </div>
+        </div>
+    </div>
+    <div style="display: none;">{{user.profile.read_calendar_info}}</div>
+    <div style="border:1px solid black; border-radius: 25px; margin-top: 20px">
+        <h2 style="text-align: center;">My Classes</h2>
+            <div>
+                <p>{{user.profile.create_calendar_html}}</p>
+            </div>
+    </div>
+    {% if user.profile.twitter_username != "" and tweet1 != "BADBADBAD" %}
+    <div style="border:1px solid black; border-radius: 25px; margin-top: 20px; margin-bottom: 20px;">
+        <h2 style="text-align: center;"><sup style="font-size: large; color: black;"><i class="fa fa-twitter"></i></sup>  Recent Tweets  <sup style="font-size: large; color: black;"><i class="fa fa-twitter"></i></sup></h2>
+        {% if "@" in user.profile.twitter_username %}
+        <p style="text-align: center;"><a href="https://twitter.com/{{user.profile.twitter_username}}/" target="_blank" style="color:black">{{ user.profile.twitter_username }}</a></p>
+        {% else %}
+        <p style="text-align: center;"> @<a href="https://twitter.com/{{user.profile.twitter_username}}/" target="_blank" style="color:black">{{ user.profile.twitter_username }}</a></p>
+        {% endif %}
+        <div class="row" style="margin-bottom: 20px; width:96%; margin-left: 2%">
+            <div class="col-md-4">
+                <h3 style="text-align: center;"> {{tweet1.author.name}}</h3>
+                <h4 style="text-align: center;"> <i>{{tweet1.created_at}}</i></h4>
+                <h4 style="text-align: center; font-weight:normal;"> {{tweet1.text}}</h4>
+            </div>
+
+            <div class="col-md-4" style="border-right: 1px dashed black; border-left: 1px dashed black;">
+                <h3 style="text-align: center;"> {{tweet2.author.name}}</h3>
+                <h4 style="text-align: center;"> <i>{{tweet2.created_at}}</i></h4>
+                <h4 style="text-align: center; font-weight:normal;"> {{tweet2.text}}</h4>
+            </div>
+
+            <div class="col-md-4">
+                <h3 style="text-align: center;"> {{tweet3.author.name}}</h3>
+                <h4 style="text-align: center;"> <i>{{tweet3.created_at}}</i></h4>
+                <h4 style="text-align: center; font-weight:normal;"> {{tweet3.text}}</h4>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% if user.username == request.user.username %}
+    <div class="container text-center" style="margin-top: 20px; margin-bottom: 20px;">
+        <form method="get" action="/edit_profile">
+            <button type='submit' class='btn btn-primary btn-lg pull-right'>Edit profile</button>
+        </form>
+    </div>
+    {% endif %}
+
+    {% else %}
+        <meta http-equiv="refresh" content="0; URL=/accounts/login/" />
+    {% endif %}
+</body>
+
+{% endblock %}

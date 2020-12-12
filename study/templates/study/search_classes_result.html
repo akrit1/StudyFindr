@@ -1,0 +1,48 @@
+{% extends 'index.html' %}
+
+{% load socialaccount %}
+
+{% block content %}
+<!-- Main Account Page-->
+
+<body>    
+    {% if user.is_authenticated %}
+    <h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">Search Results</h1>
+    <div class="mt-2" style="border:1px solid black; border-radius: 25px; margin-top: 5px">
+        {% if not results %}
+        <h3 style="text-align: center;"><span style="font-weight:normal">No results for </span> {{ searchChoices }}</h3>
+        <div class="container text-left" style="margin-bottom: 20px;">
+                <h4> Possible causes: </h4>
+                <ol>
+                    <li>Not searching by class name (ex: Advanced Software Development) or code (ex: CS-3240)</span></Incorrect></li>
+                    <li>Incorrect spelling</li>
+                    <li>No students on this website are enrolled in this class</li>
+                </ol>
+        </div>
+        {% else %}
+        <h3 style="text-align: center;"><span style="font-weight:normal">Results for search </span> {{ searchChoices }}<span style="font-weight:normal">:</span></h3>
+        <hr style="width: 98%; background: black; height: 3px; margin-left: 1%;">
+        <ul style="margin-bottom: 20px;">
+            {% for res in results %}
+                <!-- <li><a href="{% url 'courses' res.course_code %}">{{ res.name }} ({{res.course_code}})</a></li> -->
+                <div class="row">
+                    <div class="col-md-4"><h2><a style="color: lightsteelblue;" href="{% url 'courses' res.course_code %}">{{ res.course_code }}</a></h2></div>
+                    <div class="col-md-8"><h4 style="margin-top: 30px;">{{ res.name }}</h4></div>
+                </div>
+                <hr style="width: 101%; background: black; height: 1px; margin-left: -25px;">
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>  
+    <div class="container text-center" style="margin-top: 20px; margin-bottom: 20px;">
+        <form action="/search_classes">
+            <button type='submit' class='btn btn-primary btn-lg pull-right'>New search</button>
+        </form>
+    </div>
+        
+    {% else %}
+        <meta http-equiv="refresh" content="0; URL=/accounts/login/" />
+    {% endif %}
+</body>
+
+{% endblock %}

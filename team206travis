@@ -1,0 +1,23 @@
+language: python
+python:
+- '3.8'
+install:
+- pip install -r requirements-travis.txt
+services:
+  - postgresql
+addons:
+  postgresql: "9.4"
+before_script:
+  - psql -c "ALTER USER postgres WITH PASSWORD 'c32s40!_';"
+  - psql -c "CREATE DATABASE studydb WITH OWNER postgres;" -U postgres
+  - psql -c "ALTER USER postgres SUPERUSER CREATEROLE CREATEDB REPLICATION;" -U postgres
+  - python manage.py migrate --noinput
+script:
+- python manage.py test
+deploy:
+  provider: heroku
+  api_key:
+    secure: rzsAey2oq99ai3oCTB7cckzG5iFflVQVgrjgYSnS77Kf0pfkZbP3svHuoJ5eKlq9C+DR9WkwDrfnt7qNeixzcBMpXuWIziYYN69v9G4M0v0ed72+J4i+1BAc3OVKh006K++Vd2u0WaH5fg0qOGagKcLj+BYt+r9tWqagLAaK2P+QXAWUN3266dc1Q2iC+IWgN4xgdgAVB+Lup4ZhiOyhy288yu2bXBaelmzhb70riyIcFDS8CaOYN8RI4MwLF8QubFdguEJxhhqr8Zhn+P2r/iHXZ5SrKwgjYNOU0/gaSrklPOzeGt/88dwNsTamI5Swc2Xlw9pFlnmviAffjkBuUPKdibUgUnSbsVDb/mTTDzAjCofQnKA2shfPWCUu+0Ct/7jnt8Ue99a8uQViIFILnm7l1dA/U0hJb0Rc+XmVkekwwqc5cn+UJ5GkwoILFChz6/ySW8dfkpPiKzFVxRmJxtKkcbW7CxvkRi8RntlS4gy/tvXGt7xew4iLYyh3nrWscIQ9ByCQd52/kHLF1HXR4xUiTIb8wpo6IsA1PJxGmY+klTeJwC8Z6rdtq2u9PTa3oCvEVIHDiDeGt3KecGklhw+OS3nGakq6wP3E01HxVYPrHkopJvIdf1UprCWd8yPXNZ/axLGf9BRWBiwJAuo1kwc/iNEEqsoDprRHwJYmyBA=
+  app: team206
+  on:
+    repo: uva-cs3240-f20/project-2-06

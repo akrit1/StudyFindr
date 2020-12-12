@@ -1,0 +1,91 @@
+{% extends 'index.html' %}
+
+{% load socialaccount %}
+
+{% block content %}
+<!-- Main Account Page-->
+
+<body>    
+    {% if user.is_authenticated %}
+    <h1 style="text-align: center; margin-bottom: 50px; margin-top: 50px;">Search Results</h1>
+    <div style="border:1px solid black; border-radius: 25px">
+        <h3 style="text-align: center;"><span style="font-weight:normal">Students with the same </span> {{ searchChoices }}<span style="font-weight:normal">:</span></h3> 
+        <hr style="width: 98%; background: black; height: 3px; margin-left: 1%;">
+        <ul style="margin-bottom: 20px;">
+            {% for user in data %}
+                {% if user.username != request.user.username and searchChoices == "major" and user.first_name != "" and user.profile.user_major == request.user.profile.user_major %}
+                <!-- <li><a href="{% url 'account' user.username %}">{{ user.first_name }} {{ user.last_name}}</a></li> -->
+                <div class="row">
+                    <div class="col-md-5"><h2><a style="color: lightsteelblue;" href="{% url 'account' user.username %}">{{ user.first_name }} {{ user.last_name}}</a></h2></div>
+                    <div class="col-md-7"><h4 style="margin-top: 30px;"> {{ user.profile.biography }} </h4></div>
+                </div>
+                <hr style="width: 101%; background: black; height: 1px; margin-left: -25px;">
+
+                {% elif user.username != request.user.username and searchChoices == "study time preference" and user.first_name != "" and user.profile.time_preference_for_studying == request.user.profile.time_preference_for_studying %}
+                <!-- <li><a href="{% url 'account' user.username %}">{{ user.first_name }} {{ user.last_name}}</a></li> -->
+                <div class="row">
+                    <div class="col-md-5"><h2><a style="color: lightsteelblue;" href="{% url 'account' user.username %}">{{ user.first_name }} {{ user.last_name}}</a></h2></div>
+                    <div class="col-md-7"><h4 style="margin-top: 30px;"> {{ user.profile.biography }} </h4></div>
+                </div>
+                <hr style="width: 101%; background: black; height: 1px; margin-left: -25px;">
+
+                {% elif user.username != request.user.username and searchChoices == "learning type" and user.first_name != "" and user.profile.type_of_learner == request.user.profile.type_of_learner %}
+                <!-- <li><a href="{% url 'account' user.username %}">{{ user.first_name }} {{ user.last_name}}</a></li> -->
+                <div class="row">
+                    <div class="col-md-5"><h2><a style="color: lightsteelblue;" href="{% url 'account' user.username %}">{{ user.first_name }} {{ user.last_name}}</a></h2></div>
+                    <div class="col-md-7"><h4 style="margin-top: 30px;"> {{ user.profile.biography }} </h4></div>
+                </div>
+                <hr style="width: 101%; background: black; height: 1px; margin-left: -25px;">
+
+                {% elif user.username != request.user.username and searchChoices == "collaboration level" and user.first_name != "" and user.profile.importance_of_collaboration == request.user.profile.importance_of_collaboration %}
+                <!-- <li><a href="{% url 'account' user.username %}">{{ user.first_name }} {{ user.last_name}}</a></li> -->
+                <div class="row">
+                    <div class="col-md-5"><h2><a style="color: lightsteelblue;" href="{% url 'account' user.username %}">{{ user.first_name }} {{ user.last_name}}</a></h2></div>
+                    <div class="col-md-7"><h4 style="margin-top: 30px;"> {{ user.profile.biography }} </h4></div>
+                </div>
+                <hr style="width: 101%; background: black; height: 1px; margin-left: -25px;">
+
+                {% elif user.username != request.user.username and searchChoices == "interest in making friends" and user.first_name != "" and user.profile.openness_to_social_studying == request.user.profile.openness_to_social_studying %}
+                <!-- <li><a href="{% url 'account' user.username %}">{{ user.first_name }} {{ user.last_name}}</a></li> -->
+                <div class="row">
+                    <div class="col-md-5"><h2><a style="color: lightsteelblue;" href="{% url 'account' user.username %}">{{ user.first_name }} {{ user.last_name}}</a></h2></div>
+                    <div class="col-md-7"><h4 style="margin-top: 30px;"> {{ user.profile.biography }} </h4></div>
+                </div>
+                <hr style="width: 101%; background: black; height: 1px; margin-left: -25px;">
+
+                {% endif %}
+
+            {% endfor %}
+
+            {% if searchChoices == "classes" %} 
+                {% for class in request.user.profile.class_name %}
+                    <h3 style="text-align: right; font-size: 35px; margin-top: 20px; margin-right: 20px;"><a style="color: black;" href="{% url 'courses' class %}"><i>{{class}}</i></a></h3> 
+                    {% for user in data %}
+                        {% if user.username != request.user.username and user.first_name != "" %}
+                            {% for class2 in user.profile.class_name %}
+                                {% if class == class2 %}
+                                    <!-- <li><a href="{% url 'account' user.username %}"> {{ user.first_name }} {{ user.last_name}}</a> ({{ class }})</li> -->
+                                    <div class="row">
+                                        <div class="col-md-5"><h2><a style="color: lightsteelblue;" href="{% url 'account' user.username %}">{{ user.first_name }} {{ user.last_name}}</a></h2></div>
+                                        <div class="col-md-7"><h4 style="margin-top: 30px;"> {{ user.profile.biography }} </h4></div>
+                                    </div>
+                                    <hr style="width: 101%; background: black; height: 1px; margin-left: -30px;">
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </div>
+    <div class="container text-center" style="margin-top: 20px; margin-bottom: 20px;">
+        <form action="/search_people">
+            <button type='submit' class='btn btn-primary btn-lg pull-right'>New search</button>
+        </form>
+    </div>
+    {% else %}
+        <meta http-equiv="refresh" content="0; URL=/accounts/login/" />
+    {% endif %}
+</body>
+
+{% endblock %}
