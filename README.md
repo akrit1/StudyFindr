@@ -1,12 +1,12 @@
-# StudyFindr
-https://team206.herokuapp.com/  
+# StudyFindr 
+## https://team206.herokuapp.com/
 Welcome to StudyFindr! This app helps University of Virginia students easily find friends and form meetings for studying purposes.
 ## Background
 We recognized that it can be difficult for UVA students to form studying connections during a virtual semester that is unlike any other. This virtual study buddy finder app connects users according to their major, learning type, openness to social studying, how much they value collaboration, personal strengths, personal weaknesses, preferred time to study, and course schedule. 
 ## Major software
-- This project incorporates a third-party Twitter API, Tweepy, as a feature of a user's Profile page. Twitter direct messages serve as the primary means for users to contact one another. 
-- This project was built using the prescribed language (Python 3), framework (Django 3.1), build environment (Travis CI), source control management (GitHub), and cloud hosting (Heroku). 
-- PostgreSQL was used as the database engine. 
+1. This project incorporates a third-party Twitter API, Tweepy, as a feature of a user's Profile page. Twitter direct messages serve as the primary means for users to contact one another. 
+2. This project was built using the prescribed language (Python 3), framework (Django 3.1), build environment (Travis CI), source control management (GitHub), and cloud hosting (Heroku). 
+3. PostgreSQL was used as the database engine. 
 ## Usage
 ### Logging in and Site Navigation
 Users can log in with either: (1) an email in the virginia.edu domain or (2) a Gmail account. After logging in, users can navigate the app using the navigation bar across the top. Click on the search glass to search for people and classes. Click on the hamburger menu button to reveal a dropdown menu to go to your Profile page, create a new study session, or sign out. 
